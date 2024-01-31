@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\EntrepriseRequest;
 class EntrepriseController extends Controller
 {
     /**
@@ -13,6 +14,8 @@ class EntrepriseController extends Controller
     public function index()
     {
         //
+        $entreprises = Entreprise::all();
+        return view('entreprises.view',compact('entreprises'));
     }
 
     /**
@@ -26,10 +29,18 @@ class EntrepriseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+    public function store(EntrepriseRequest $request)
     {
-        //
+    
+       
+        Entreprise::create($request->all());
+    
+       
+        return Redirect::route('entreprises')->with('success', "Entreprise added successfully");
     }
+    
+
 
     /**
      * Display the specified resource.
@@ -45,14 +56,19 @@ class EntrepriseController extends Controller
     public function edit(Entreprise $entreprise)
     {
         //
+        return view('entreprises.edit',compact('entreprise'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Entreprise $entreprise)
+    public function update(EntrepriseRequest $request, Entreprise $entreprise)
     {
         //
+        $entreprise->update($request->all());
+    
+       
+        return Redirect::route('entreprises')->with('success', "Entreprise updated successfully");
     }
 
     /**
@@ -60,6 +76,10 @@ class EntrepriseController extends Controller
      */
     public function destroy(Entreprise $entreprise)
     {
-        //
+    
+    $entreprise->delete();
+   
+    return redirect()->route('entreprises')->with('success', "Entreprise deleted successfully");
     }
+
 }
