@@ -150,7 +150,7 @@
                                 {{$annonce->description}}
                             </td>
                             <td class="px-6 py-4">
-                                 {{$annonce->entreprises_name}}
+                                 {{$annonce->entreprise->name}}
                             </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('annonces.edit',$annonce->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
@@ -161,7 +161,7 @@
                                     <button type="submit"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Dlete</button>
                                     
                                 </form>
-                         </td>
+                            </td>
                             
                         </tr>
                         @endforeach

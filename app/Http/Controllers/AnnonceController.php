@@ -16,10 +16,8 @@ class AnnonceController extends Controller
     {
         //
             $entreprises = Entreprise::get(["id","name"]);
-            $annonces = Annonce::select('annonces.*', 'entreprises.name as entreprises_name')
-            ->join('entreprises', 'entreprises.id', '=', 'annonces.entreprise_id')
-            ->get();
-        return view("annonces.view",compact("annonces","entreprises"));
+            $annonces = Annonce::with('Entreprise')->latest()->paginate(5);
+            return view("annonces.view",compact("annonces","entreprises"))->with('i',(request()->input('page',1)-1)*5);
     }
 
     /**
@@ -82,7 +80,6 @@ class AnnonceController extends Controller
         //
         $annonce->delete();
     
-       
         return Redirect::route('annonces')->with('success', "Entreprise deleted successfully");
     }
 }

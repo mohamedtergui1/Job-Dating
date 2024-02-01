@@ -12,10 +12,11 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        //
-        $entreprises = Entreprise::all();
-        return view('entreprises.view',compact('entreprises'));
+        //   
+            $entreprises = Entreprise::latest()->paginate(5);
+            return view('entreprises.view',compact('entreprises'))->with('i',(request()->input('page',1)-1)*5);
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -65,8 +66,6 @@ class EntrepriseController extends Controller
     {
         //
         $entreprise->update($request->all());
-    
-       
         return Redirect::route('entreprises')->with('success', "Entreprise updated successfully");
     }
 

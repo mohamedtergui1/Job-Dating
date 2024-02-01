@@ -14,7 +14,7 @@ class AddForeignKeysToAnnonceTable extends Migration {
 	{
 		Schema::table('annonces', function(Blueprint $table)
 		{
-			$table->foreign('enreprise_id', 'FK_annonces_entreprises')->references('id')->on('entreprises')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('entreprise_id', 'FK_annonces_entreprises')->references('id')->on('entreprises')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 
