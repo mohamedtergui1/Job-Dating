@@ -32,13 +32,16 @@ class EntrepriseRequest extends FormRequest
     function messages()
     {
         return [
-            'title.required' => 'vous devez remplir le champ du titre',
-            'title.min' => 'Le titre doit avoir au moins :min caractères.',
-            'title.max' => 'Le titre ne doit pas dépasser :max caractères.',
-            'author.required' => 'Le champ auteur est requis.',
-            'author.string' => 'Le champ auteur doit être une chaîne de caractères.',
-            'genre.required' => 'Le champ genre est requis.',
-            'genre.string' => 'Le champ genre doit être une chaîne de caractères.'
+            'name.required' => 'vous devez remplir le champ du name',
+            'name.min' => 'Le name doit avoir au moins :min caractères.',
+            'name.max' => 'Le name ne doit pas dépasser :max caractères.',
+            'location.required' => 'vous devez remplir le champ du location',
+            'location.min' => 'Le location doit avoir au moins :min caractères.',
+            'location.max' => 'Le location ne doit pas dépasser :max caractères.',
+            'contact.required' => 'vous devez remplir le champ du contact',
+            'contact.min' => 'Le contact doit avoir au moins :min caractères.',
+            'contact.max' => 'Le contact ne doit pas dépasser :max caractères.'
+
         ];
     }
 

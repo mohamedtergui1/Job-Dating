@@ -15,5 +15,10 @@ class Entreprise extends Model
         ,
         'location'
     ];
+   
+        public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
+    }
     
 }

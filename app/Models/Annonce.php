@@ -9,14 +9,15 @@ class Annonce extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'entreprise_id'
     ];
     
-     function entreprise(){
-        
-     }
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class);
+    }
     
 
 }

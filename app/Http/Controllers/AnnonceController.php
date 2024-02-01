@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
-use Illuminate\Http\Request;
+use App\Models\Entreprise;
 
+use App\Http\Requests\AnnonceRequest;
+use Illuminate\Support\Facades\Redirect;
 class AnnonceController extends Controller
 {
     /**
@@ -13,8 +15,11 @@ class AnnonceController extends Controller
     public function index()
     {
         //
-        $annonces = Annonce::all();
-        return view("annonces.view",compact("annonces"));
+            $entreprises = Entreprise::get(["id","name"]);
+            $annonces = Annonce::select('annonces.*', 'entreprises.name as entreprises_name')
+            ->join('entreprises', 'entreprises.id', '=', 'annonces.entreprise_id')
+            ->get();
+        return view("annonces.view",compact("annonces","entreprises"));
     }
 
     /**
@@ -28,9 +33,13 @@ class AnnonceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AnnonceRequest $request)
     {
         //
+        Annonce::create($request->all());
+    
+       
+        return Redirect::route('annonces')->with('success', "Entreprise added successfully");
     }
 
     /**
@@ -47,14 +56,22 @@ class AnnonceController extends Controller
     public function edit(Annonce $annonce)
     {
         //
+        $entreprises = Entreprise::where('id', '!=', $annonce->entreprise_id)
+                             ->get(["id", "name"]);
+        $entreprise = Entreprise::find($annonce->entreprise_id);
+        return view('annonces.edit',compact('annonce',"entreprises","entreprise"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Annonce $annonce)
+    public function update(AnnonceRequest $request, Annonce $annonce)
     {
         //
+        $annonce->update($request->all());
+    
+       
+        return Redirect::route('annonces')->with('success', "Entreprise updated successfully");
     }
 
     /**
@@ -63,5 +80,9 @@ class AnnonceController extends Controller
     public function destroy(Annonce $annonce)
     {
         //
+        $annonce->delete();
+    
+       
+        return Redirect::route('annonces')->with('success', "Entreprise deleted successfully");
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entreprise;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\EntrepriseRequest;
 class EntrepriseController extends Controller
