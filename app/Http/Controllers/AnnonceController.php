@@ -6,6 +6,8 @@ use App\Models\Annonce;
 use App\Models\Entreprise;
 
 use App\Http\Requests\AnnonceRequest;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Redirect;
 class AnnonceController extends Controller
 {
@@ -81,5 +83,18 @@ class AnnonceController extends Controller
         $annonce->delete();
     
         return Redirect::route('annonces')->with('success', "Entreprise deleted successfully");
+    }
+    function  search(Request $request){
+        
+        
+        $annonces = Annonce::with('Entreprise')->where('title', 'like', '%' . $request->search_string . '%')->get();
+        
+        if($annonces->count() )  
+        return response()->json($annonces);
+       
+        else response()->json(
+           [ 'status' => 'not found']
+        );
+            
     }
 }
