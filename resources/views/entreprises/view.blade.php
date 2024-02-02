@@ -144,22 +144,28 @@
                             <form action="{{ route('entreprises.destroy',$entreprise->id) }}" method="post">
                                 @csrf
                                 @method ('DELETE')
-                                
                                 <button type="submit"  class="font-medium text-red-600 dark:text-red-500 hover:underline">Dlete</button>
-                              
                             </form>
                      </td>
                     </tr>
                     @endforeach
                    
-                    @if (count($entreprises)==0)
-                    <td class="px-6 py-4 flex justify-center text-center text-red-500 ">
-                         {{"no recordes"}}
-                    </td>
-                    @endif
+                   
                     
                 </tbody>
             </table>
+            @if (count($entreprises) == 0)
+            <div class="flex p-5 pb-10 justify-end">
+                <p class=" text-red-700 text-center text-3xl " >
+                    its empty
+                 </p>   
+            </div>
+        @else
+            <div class="flex p-5 pb-10 justify-end">
+                {{ $entreprises->links() }}
+            </div>
+        @endif
+        
         </div>
     </div>
      

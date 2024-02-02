@@ -24,9 +24,34 @@
                 data: {search_string: search_string},
                 dataType: "json",
                 success: function (response) {
-                    console.log(response)
+                    
                     $("#placeResult").html("")
-                  response.forEach(r => {
+             
+                        appenRespose(response);
+                 
+                
+                },
+                error: function (error) {
+                    $("#placeResult").html(`
+                            <div class=" felx justify-center  " >
+                                <p class=" text-center text-2xl text-red-700 p-10 " >
+                                    no result found  for  !! <b> ${search_string} </b> 
+                                </p>
+                            </div>
+                    `)
+                  
+                   
+                   
+                }
+            });
+        });
+    });
+
+    function appenRespose(data){
+        data.forEach(r => {
+          
+                    
+               
                       $("#placeResult").append(
 
                               `
@@ -54,17 +79,11 @@
                               `
 
                       );
-                  });   
+               
+                  });  
+    }
 
-                 
-                
-                },
-                error: function (error) {
-                    console.log(error);
-                   
-                   
-                }
-            });
-        });
-    });
+
+
+
 </script>

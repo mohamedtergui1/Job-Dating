@@ -89,7 +89,7 @@ class AnnonceController extends Controller
         
         $annonces = Annonce::with('Entreprise')->where('title', 'like', '%' . $request->search_string . '%')->get();
         
-        if($annonces->count() )  
+        if(count($annonces))  
         return response()->json($annonces);
        
         else response()->json(

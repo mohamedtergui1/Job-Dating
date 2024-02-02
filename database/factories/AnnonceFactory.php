@@ -17,8 +17,8 @@ class AnnonceFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
-            'description' => fake()->paragraph(),
+            'title' => fake()->name(),
+            'description' => fake()->text(100),
             'entreprise_id' => fake()->numberBetween(1,10)
         ];
     }
