@@ -24,7 +24,8 @@ class AnnonceRequest extends FormRequest
         return [
             "title" => "required|string|min:5|max:30",
             "description" => "required|min:10|max:300",
-            "entreprise_id" => "required"
+            "entreprise_id" => "required",
+            'image' => 'nullable|mimes:png,jpeg,jpg,webp'
         ];
 
 
@@ -38,7 +39,9 @@ class AnnonceRequest extends FormRequest
             'description.required' => 'vous devez remplir le champ du description',
             'description.min' => 'Le description doit avoir au moins :min caractères.',
             'description.max' => 'Le description ne doit pas dépasser :max caractères.',
-            'entreprise_id.required' => 'vous devez remplir le champ du entreprise'
+            'entreprise_id.required' => 'vous devez remplir le champ du entreprise',
+            'image.mimes' => 'please  put a valid format for image'
+
         ];
     }
 }

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title',40);
             $table->text('description');
             $table->unsignedBigInteger('entreprise_id');
+            $table->string('image',255)->nullable();
             $table->timestamps();
         });
     }

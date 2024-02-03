@@ -35,9 +35,22 @@ class AnnonceController extends Controller
      */
     public function store(AnnonceRequest $request)
     {
-        //
-        Annonce::create($request->all());
-    
+        if($request->image){
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time().'.'.$extension;
+            $path = 'uploads/ennonces/';
+            $file->move($path, $fileName);
+        }
+
+        
+        Annonce::create([
+            'title' => $request->title,
+            'entreprise_id' => $request->entreprise_id,
+            'image' => $fileName,
+            'description' => $request->description,
+        ]);
+        
        
         return Redirect::route('annonces')->with('success', "Entreprise added successfully");
     }
@@ -68,8 +81,27 @@ class AnnonceController extends Controller
     public function update(AnnonceRequest $request, Annonce $annonce)
     {
         //
-        $annonce->update($request->all());
-    
+        if($request->image){
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time().'.'.$extension;
+            $path = 'uploads/ennonces/';
+            $file->move($path, $fileName);
+            $annonce->update([
+                'title' => $request->title,
+                'entreprise_id' => $request->entreprise_id,
+                'image' => $fileName,
+                'description' => $request->description,
+            ]);
+        }
+        $annonce->update([
+            'title' => $request->title,
+            'entreprise_id' => $request->entreprise_id,
+            'description' => $request->description,
+        ]);
+
+        
+       
        
         return Redirect::route('annonces')->with('success', "Entreprise updated successfully");
     }

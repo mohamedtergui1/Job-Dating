@@ -16,10 +16,12 @@ class AnnonceFactory extends Factory
      */
     public function definition(): array
     {
+         $a = ["1706978716.png","1706978880.webp","1706979213.webp","1706979339.webp"];
         return [
             'title' => fake()->name(),
             'description' => fake()->text(100),
-            'entreprise_id' => fake()->numberBetween(1,10)
+            'entreprise_id' => fake()->numberBetween(1,10),
+            "image" =>  $a[random_int(0,3)]
         ];
     }
 }

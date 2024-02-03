@@ -11,7 +11,8 @@ class Annonce extends Model
     protected $fillable = [
         'title',
         'description',
-        'entreprise_id'
+        'entreprise_id',
+        'image'
     ];
     
     public function entreprise()
