@@ -4,6 +4,8 @@ use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/userprofile', [UserController::class, 'show'])->name('userprofile');
+    Route::post('/addskills', [UserController::class, 'addSkill'])->name('addskills');
 
     // annonces
 

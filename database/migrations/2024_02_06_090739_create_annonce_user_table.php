@@ -9,7 +9,7 @@ class CreateAnnonceUserTable extends Migration
     public function up()
     {
         Schema::create('annonce_user', function (Blueprint $table) {
-            $table->id();
+       
             $table->unsignedBigInteger('annonce_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

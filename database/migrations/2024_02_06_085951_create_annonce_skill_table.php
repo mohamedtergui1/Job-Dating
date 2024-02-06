@@ -7,8 +7,7 @@ class CreateAnnonceSkillTable extends Migration
 {
     public function up()
     {
-        Schema::create('annonce_skill', function (Blueprint $table) {
-            $table->id();
+        Schema::create('annonce_skill', function (Blueprint $table) {        
             $table->unsignedBigInteger('annonce_id');
             $table->unsignedBigInteger('skill_id'); 
             $table->timestamps();
