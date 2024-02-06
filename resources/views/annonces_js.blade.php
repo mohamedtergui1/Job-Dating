@@ -55,7 +55,7 @@
                       $("#placeResult").append(
 
                               `
-                              <a href="http://127.0.0.1:8000/annonces?${r.id}" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
+                              <a href="http://127.0.0.1:8000/annoncec/${r.id}" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
                               
                               style="
                             background-image: url('http://127.0.0.1:8000/uploads/ennonces/${r.image}');
@@ -90,9 +90,7 @@
                               `
 
                       );
-                      setTimeout(() => {
-                         console.log("wiki")
-                    }, 100);
+             
                
                   });  
     }

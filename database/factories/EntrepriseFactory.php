@@ -18,8 +18,8 @@ class EntrepriseFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'location' => fake()->text(230),
-            'contact' => fake()->paragraph()
+            'location' => fake()->text(100),
+            'contact' => fake()->text(100)
         ];
     }
 }

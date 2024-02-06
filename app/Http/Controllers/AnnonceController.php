@@ -41,17 +41,24 @@ class AnnonceController extends Controller
             $fileName = time().'.'.$extension;
             $path = 'uploads/ennonces/';
             $file->move($path, $fileName);
+            Annonce::create([
+                'title' => $request->title,
+                'entreprise_id' => $request->entreprise_id,
+                'image' => $fileName,
+                'description' => $request->description,
+            ]);
+            
         }
-
+        else{
         
         Annonce::create([
             'title' => $request->title,
             'entreprise_id' => $request->entreprise_id,
-            'image' => $fileName,
-            'description' => $request->description,
+        
+            'description' => $request->description
         ]);
         
-       
+       }
         return Redirect::route('annonces')->with('success', "Entreprise added successfully");
     }
 
@@ -61,6 +68,8 @@ class AnnonceController extends Controller
     public function show(Annonce $annonce)
     {
         //
+        
+        return view("single_page",compact('annonce'));
     }
 
     /**
@@ -69,10 +78,11 @@ class AnnonceController extends Controller
     public function edit(Annonce $annonce)
     {
         //
+      
         $entreprises = Entreprise::where('id', '!=', $annonce->entreprise_id)
                              ->get(["id", "name"]);
-        $entreprise = Entreprise::find($annonce->entreprise_id);
-        return view('annonces.edit',compact('annonce',"entreprises","entreprise"));
+        
+        return view('annonces.edit',compact('annonce',"entreprises"));
     }
 
     /**
@@ -93,14 +103,13 @@ class AnnonceController extends Controller
                 'image' => $fileName,
                 'description' => $request->description,
             ]);
-        }
+        }else{
         $annonce->update([
             'title' => $request->title,
             'entreprise_id' => $request->entreprise_id,
             'description' => $request->description,
         ]);
-
-        
+        }
        
        
         return Redirect::route('annonces')->with('success', "Entreprise updated successfully");

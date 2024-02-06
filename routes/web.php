@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 Route::get('/search', [AnnonceController::class, 'search'])->name('search');
 
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource("annonces", AnnonceController::class, [
         'names'=>[
-            'index' => "annonces",
+            'index' => "annonces"
         ]
     ]);
 
@@ -44,10 +45,12 @@ Route::middleware('auth')->group(function () {
 
     Route::resource("entreprises", EntrepriseController::class, [
         'names'=>[
-            'index' => "entreprises",
+            'index' => "entreprises"
         ]
-    ]);
+    ])->except(['show']);
 });
+
+Route::get('/annonces/{annonce}', [AnnonceController::class, 'show'])->name('annonces.show');
 
 
 require __DIR__.'/auth.php';
