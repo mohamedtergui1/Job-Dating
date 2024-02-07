@@ -39,7 +39,7 @@ class AnnonceController extends Controller
     {    
         
     
-        if($request->image){
+        if($request->hasFile('image')){
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time().'.'.$extension;
@@ -116,36 +116,14 @@ class AnnonceController extends Controller
             'description' => $request->description,
         ]);
         }
-       
+         
+
+    // Sync the skills
+          $annonce->skills()->sync($request->input('skill_ids', []));
        
         return Redirect::route('annonces')->with('success', "Entreprise updated successfully");
     }
-    public function update(AnnouncementsRequest $request, Announcements $announcement)
-{
-    $data = [
-        'title' => $request->title,
-        'description' => $request->description,
-        'company_id' => $request->company_id,
-    ];
-
-    if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $fileName = time().'.'.$extension;
-        $path = 'uploads/announcements/';
-        $file->move($path, $fileName);
-        $data['image'] = $fileName;
-    }
-
-    // Update the announcement details
-    $announcement->update($data);
-
-    // Sync the skills
-    $announcement->skills()->sync($request->input('skill_ids', []));
-
-    return redirect()->route('announcements')->with('success', 'Announcement updated successfully.');
-}
-
+   
     /**
      * Remove the specified resource from storage.
      */

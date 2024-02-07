@@ -28,12 +28,12 @@
                 <h2 class="mt-6 text-xl font-semibold text-gray-100 dark:text-gray-100 text-shadow">{{$annonce->entreprise->name}}</h2>
                 
                 <p class="mt-4 text-gray-100 dark:text-gray-400 text-sm leading-relaxed text-shadow">
-                    {{$annonce->description}}
+                       {{$annonce->description}}
                 </p>
                 <div class="  flex gap-3 pt-1" >
                        @foreach ($annonce->skills as $i=> $skill)
                        @if ($i>1) 
-                       <span class="bg-white rounded-lg shadow py-1 px-2 " >.. </span>
+                       <span class="bg-white rounded-lg shadow py-1 px-2 " >..</span>
                        @break
                        @endif
                            <span class="bg-gray-200 rounded-sm shadow py-1 px-2 " >{{$skill->name}}</span>
