@@ -6,6 +6,7 @@ use App\Models\Annonce;
 use App\Models\Entreprise;
 
 use App\Http\Requests\AnnonceRequest;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -18,8 +19,9 @@ class AnnonceController extends Controller
     {
         //
             $entreprises = Entreprise::get(["id","name"]);
+            $skills = Skill::all();
             $annonces = Annonce::with('Entreprise')->latest()->paginate(5);
-            return view("annonces.view",compact("annonces","entreprises"))->with('i',(request()->input('page',1)-1)*5);
+            return view("annonces.view",compact("annonces","entreprises",'skills'))->with('i',(request()->input('page',1)-1)*5);
     }
 
     /**
@@ -34,14 +36,16 @@ class AnnonceController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(AnnonceRequest $request)
-    {
+    {    
+        
+    
         if($request->image){
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time().'.'.$extension;
             $path = 'uploads/ennonces/';
             $file->move($path, $fileName);
-            Annonce::create([
+            $announce =  Annonce::create([
                 'title' => $request->title,
                 'entreprise_id' => $request->entreprise_id,
                 'image' => $fileName,
@@ -51,17 +55,19 @@ class AnnonceController extends Controller
         }
         else{
         
-        Annonce::create([
+        $announce =Annonce::create([
             'title' => $request->title,
             'entreprise_id' => $request->entreprise_id,
-        
             'description' => $request->description
         ]);
         
        }
+
+        $announce->skills
+        ()->attach($request->input('skill_ids', []));
         return Redirect::route('annonces')->with('success', "Entreprise added successfully");
     }
-
+  
     /**
      * Display the specified resource.
      */
@@ -78,11 +84,11 @@ class AnnonceController extends Controller
     public function edit(Annonce $annonce)
     {
         //
-      
+        $skills = Skill::all();
         $entreprises = Entreprise::where('id', '!=', $annonce->entreprise_id)
                              ->get(["id", "name"]);
         
-        return view('annonces.edit',compact('annonce',"entreprises"));
+        return view('annonces.edit',compact('annonce',"entreprises",'skills'));
     }
 
     /**
@@ -91,7 +97,7 @@ class AnnonceController extends Controller
     public function update(AnnonceRequest $request, Annonce $annonce)
     {
         //
-        if($request->image){
+        if($request->hasFile('image')){
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $fileName = time().'.'.$extension;
@@ -114,6 +120,31 @@ class AnnonceController extends Controller
        
         return Redirect::route('annonces')->with('success', "Entreprise updated successfully");
     }
+    public function update(AnnouncementsRequest $request, Announcements $announcement)
+{
+    $data = [
+        'title' => $request->title,
+        'description' => $request->description,
+        'company_id' => $request->company_id,
+    ];
+
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $fileName = time().'.'.$extension;
+        $path = 'uploads/announcements/';
+        $file->move($path, $fileName);
+        $data['image'] = $fileName;
+    }
+
+    // Update the announcement details
+    $announcement->update($data);
+
+    // Sync the skills
+    $announcement->skills()->sync($request->input('skill_ids', []));
+
+    return redirect()->route('announcements')->with('success', 'Announcement updated successfully.');
+}
 
     /**
      * Remove the specified resource from storage.
@@ -132,7 +163,6 @@ class AnnonceController extends Controller
         
         if(count($annonces))  
         return response()->json($annonces);
-       
         else response()->json(
            [ 'status' => 'not found']
         );

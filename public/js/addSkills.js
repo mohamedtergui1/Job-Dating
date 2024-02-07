@@ -1,16 +1,41 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>
+  $(document).ready(function () { 
+ 
       $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    $(document).ready(function () { 
+  
      
         var tags = [];
+
+ 
+$(".oldSkill").each(function(i, e) {
      
+    tags.push($(e).val());  
+});
+
+ 
+$(".skills").each(function(i, e) {
+    
+    var value = $(e).val();  
+
+     
+    if (tags.indexOf(value) !== -1) {
+        
+        $(e).removeClass("hover:bg-purple-800").addClass("hover:bg-green-800");
+        $(e).removeClass("bg-purple-700").addClass("bg-green-700");
+    } else {
+         
+        $(e).addClass("hover:bg-purple-800").removeClass("hover:bg-green-800");
+        $(e).addClass("bg-purple-700").removeClass("bg-green-700");
+    }
+});
+
+console.log(tags);
+
             $(".skills").click(function () {
 
             if(tags.indexOf($(this).val()) === -1){
@@ -49,7 +74,14 @@
                 processData: false,   
                 contentType: false,   
                 success: function (response) {
-                    console.log(response);
+                   
+                    
+
+                    swal(response.message, "You clicked the button!", "success");
+                    
+            
+                    
+                     
                 }
             });
 
@@ -60,4 +92,4 @@
 
        
     });
-</script>
+ 

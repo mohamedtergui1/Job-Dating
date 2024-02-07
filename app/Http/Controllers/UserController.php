@@ -5,32 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Skill;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 
 class UserController extends Controller
 {
     //
-    function show () {
+    function show (User $user) {
+        
+        
         $skills= Skill::all();
-        return view('profileUser',compact('skills'));
+         
+         $user = User::with('skills')->findOrFail($user->id);
+           
+        return view('profileUser',compact('skills','user'));
     }
     public function addSkill(Request $request)
-    {
-         
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'skill_ids' => 'required|array',
-            'skill_ids.*' => 'exists:skills,id'
-        ]);
-    
-         
-        $user = User::findOrFail($request->input('user_id'));
-    
-         
-        $user->skills()->attach($request->input('skill_ids'));
-    
-       
-        echo "1";
+{
+    $validator = Validator::make($request->all(), [
+        'user_id' => 'required|exists:users,id',
+        'skill_ids' => 'required|array',
+        'skill_ids.*' => 'exists:skills,id'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+    $user = User::findOrFail($request->input('user_id'));
+    $user->skills()->sync($request->input('skill_ids'));    
+    return response()->json(['message' => 'Skills added successfully'], 200);
+}
     
 }

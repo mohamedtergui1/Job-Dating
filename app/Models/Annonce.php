@@ -19,18 +19,20 @@ class Annonce extends Model
     ];
     
     public function entreprise()
-    {
+    {   
+        
         return $this->belongsTo(Entreprise::class);
+        
     }
     
     public function skills()
     {
-        return $this->belongsTo(Skill::class);
+        return $this->belongsToMany(Skill::class,"annonce_skill");
     }
     public function users()
-{
-    return $this->belongsToMany(User::class);
-}
+    {
+        return $this->belongsToMany(User::class);
+    }
 
 
 }
