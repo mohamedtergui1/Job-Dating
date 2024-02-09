@@ -22,8 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'role'
+        'password' 
     ];
 
     /**
@@ -45,7 +44,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    
     public function skills()
 {
     return $this->belongsToMany(Skill::class,'user_skill');

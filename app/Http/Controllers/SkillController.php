@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
+use App\Http\Requests\SkillResquest;
 class SkillController extends Controller
 {
     /**
@@ -13,6 +15,10 @@ class SkillController extends Controller
     public function index()
     {
         //
+        $skills = Skill::latest()->paginate(5);
+
+        return view("skills.view",compact('skills'))->with('i',(request()->input('page',1)-1)*5);
+        
     }
 
     /**
@@ -26,9 +32,13 @@ class SkillController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SkillResquest $request)
     {
         //
+        Skill::create($request->all());
+    
+       
+        return Redirect::route('skills')->with('success', "Skill added successfully");
     }
 
     /**
@@ -45,14 +55,17 @@ class SkillController extends Controller
     public function edit(Skill $skill)
     {
         //
+        return view('skills.edit',compact('skill'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Skill $skill)
+    public function update(SkillResquest $request, Skill $skill)
     {
         //
+        $skill->update($request->all());
+        return Redirect::route('skills')->with('success', "skill updated successfully");
     }
 
     /**
@@ -61,5 +74,8 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         //
+        $skill->delete();
+   
+        return redirect()->route('skills')->with('success', "skill deleted successfully");
     }
 }

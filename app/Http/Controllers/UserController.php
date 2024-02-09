@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 
 class UserController extends Controller
@@ -35,5 +36,23 @@ class UserController extends Controller
     $user->skills()->sync($request->input('skill_ids'));    
     return response()->json(['message' => 'Skills added successfully'], 200);
 }
+
+public function postuler(Request $request){
+
+    Validator::make($request->all(), [
+        'annonce_ids' => 'required|array',
+        'annonce_ids.*' => 'exists:annonces,id'
+    ])->validate();
+    
+    $user = User::findOrFail(auth()->user()->id);
+
+    // Sync without detaching to avoid duplicate entries
+    $user->annonces()->syncWithoutDetaching($request->input('annonce_ids'));
+
+    return Redirect::route('welcome')->with('success', "Postuler with success");
+    
+}
+
+ 
     
 }

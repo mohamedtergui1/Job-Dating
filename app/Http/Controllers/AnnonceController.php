@@ -141,7 +141,7 @@ class AnnonceController extends Controller
         
         if(count($annonces))  
         return response()->json($annonces);
-        else response()->json(
+        else return response()->json(
            [ 'status' => 'not found']
         );
             

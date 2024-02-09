@@ -4,6 +4,7 @@ use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
 
 
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/userprofile/{user}', [UserController::class, 'show'])->name('userprofile');
     Route::post('/addskills', [UserController::class, 'addSkill'])->name('addskills');
+    Route::post('/postuler', [UserController::class, 'postuler'])->name('postuler');
+
 
     // annonces
 
@@ -44,6 +47,13 @@ Route::middleware('auth')->group(function () {
             'index' => "annonces"
         ]
     ]);
+
+    Route::resource("skills", SkillController::class, [
+        'names'=>[
+            'index' => "skills"
+        ]
+    ]);
+
 
     // entreprises
 
