@@ -46,6 +46,16 @@
    
 <div class="flex justify-around  " >
   <div  class="flex flex-col lg:w-1/2 m-1 p-3 shadow  gap-5">
+    <div class="flex justify-end m-2" >
+        <a href="{{route('userprofile.edit')}}">
+             <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M17 10v1.1l1 .5.8-.8 1.4 1.4-.8.8.5 1H21v2h-1.1l-.5 1 .8.8-1.4 1.4-.8-.8a4 4 0 0 1-1 .5V20h-2v-1.1a4 4 0 0 1-1-.5l-.8.8-1.4-1.4.8-.8a4 4 0 0 1-.5-1H11v-2h1.1l.5-1-.8-.8 1.4-1.4.8.8a4 4 0 0 1 1-.5V10h2Zm.4 3.6c.4.4.6.8.6 1.4a2 2 0 0 1-3.4 1.4A2 2 0 0 1 16 13c.5 0 1 .2 1.4.6ZM5 8a4 4 0 1 1 8 .7 7 7 0 0 0-3.3 3.2A4 4 0 0 1 5 8Zm4.3 5H7a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h6.1a7 7 0 0 1-1.8-7Z" clip-rule="evenodd"/>
+          </svg> 
+        </a>
+      
+          
+    </div>
+    
     <div  class="flex justify-start gap-1" >
         <p>Full Name :</p>
         <p>{{$user->name}}</p>
@@ -57,17 +67,26 @@
      </div>
 </div>
 
-<!-- Modal toggle -->
-<div class="lg:w-1/2m-1 shadow p-3 " >
+ 
+<div class="lg:w-1/2 m-1 shadow p-3 " >
     <div  class="flex justify-end" >
 <button data-modal-target="static-modal" data-modal-toggle="static-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+   
+   
+    @if(count($user->skills))
+    EDIT SKILLS 
+    @else 
     ADD SKILLS
+   
+   
+    @endif
   </button>
 </div>
   <div class="flex justify-start flex-wrap gap-3 p-6" >
     @foreach ($user->skills as $skill)
     <button  type="button" value="{{$skill->id}}" class=" oldSkill    focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">{{$skill->name}}</button>
     @endforeach
+   
  </div>
 </div>
 </div>
@@ -82,7 +101,7 @@
         <div  class="scale-100 p-6  bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
             
             style="
-            background-image: url('{{asset('uploads/ennonces/'. $annonce->image)}}');
+            background-image: url('{{asset('uploads/ennonces/'.$annonce->image)}}');
             background-size: cover; 
             background-position: center center;
             background-repeat: no-repeat;

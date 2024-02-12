@@ -38,10 +38,21 @@
         </svg>
       </button>
     </div>
-  @endif         
-
-
-    <div id="placeResult" class="  grid grid-cols-1 lg:grid-cols-2 w-full gap-6  lg:gap-8">
+  @endif 
+  
+  
+  @auth
+ 
+   <div class="px-10 py-2 border-b-2 mx-1 flex justify-end" >
+    
+    <button  id="all"  type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none
+     bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4
+      focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600
+       dark:hover:text-white dark:hover:bg-gray-700">All Annonce</button>
+<button   id="match" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Matched Annonce</button>
+   </div>
+   @endauth 
+    <div id="placeResult" class="  grid grid-cols-1 lg:grid-cols-2 w-full gap-6 mt-4 lg:gap-8">
                      
         @foreach ($annonces as $annonce)
            <div>
@@ -110,8 +121,9 @@
     </div>
     @else
         <div class="flex p-5 pb-10 justify-end">
-            {{-- {{ $annonces->links() }} --}}
+            {{ $annonces->links() }} 
         </div>
-@endif
+    @endif
 <script src="{{asset('js/search.js')}}"></script>
+
 </x-homelayout>

@@ -137,10 +137,10 @@ class AnnonceController extends Controller
     function  search(Request $request){
         
         
-        $annonces = Annonce::with('Entreprise')->where('title', 'like', '%' . $request->search_string . '%')->get();
+        $annonces = Annonce::with('Entreprise', 'skills')->where('title', 'like', '%' . $request->search_string . '%')->get();
         
         if(count($annonces))  
-        return response()->json($annonces);
+        return   response()->json(["status" => "1", "annonces" => $annonces , "_token" => csrf_token()]);
         else return response()->json(
            [ 'status' => 'not found']
         );

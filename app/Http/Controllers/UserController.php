@@ -8,16 +8,15 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
-
 class UserController extends Controller
 {
     //
-    function show (User $user) {
+    function show () {
         
         
         $skills= Skill::all();
          
-         $user = User::with('skills')->findOrFail($user->id);
+         $user = User::with('skills')->findOrFail(auth()->user()->id);
            
         return view('profileUser',compact('skills','user'));
     }
@@ -31,7 +30,7 @@ class UserController extends Controller
 
     if ($validator->fails()) {
         return response()->json(['errors' => $validator->errors()], 422);
-    }
+    }   
     $user = User::findOrFail($request->input('user_id'));
     $user->skills()->sync($request->input('skill_ids'));    
     return response()->json(['message' => 'Skills added successfully'], 200);
@@ -51,6 +50,13 @@ public function postuler(Request $request){
 
     return Redirect::route('welcome')->with('success', "Postuler with success");
     
+}
+
+ 
+public function edit( )
+{  
+    $user = User::find(auth()->user()->id);
+    return view("editUserProfile",compact('user'));
 }
 
  

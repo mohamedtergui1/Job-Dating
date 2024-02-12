@@ -11,21 +11,30 @@ class HomeController extends Controller
        function index()
        {
 
+ 
 
-              // SELECT COUNT(*)  FROM  users INNER JOIN user_skill INNER JOIN skills ON users.id = user_skill.user_id INNER JOIN annonce_skill
-              // INNER JOIN annonces 
-              // ON
-              // users.id = user_skill.user_id and skills.id = user_skill.skill_id
-              // AND  annonces.id = annonce_skill.annonce_id and skills.id=annonce_skill.skill_id WHERE users.id = 1
+        
+              $annonces = Annonce::with('Entreprise', 'skills')->latest()->paginate(6);
+              $entreprises = Entreprise::all();
+              return view("welcome", compact("annonces", "entreprises"))->with('i',(request()->input('page',1)-1)*6);
 
+       }
 
-              // SELECT COUNT(*) FROM  annonce_skill INNER join annonces INNER join skills 
-              // ON annonce_skill.annonce_id = annonces.id and skills.id = annonce_skill.skill_id where annonces.id = 2
-
+       function allannonces() {
+              $annonces = Annonce::with('Entreprise', 'skills')->get();
+              if ($annonces->isNotEmpty()) {
+                  return response()->json(["status" => "1", "annonces" => $annonces , "_token" => csrf_token()]);
+              } else {
+                  return response()->json(["status" => "0", "message" => "No announcements found"]);
+              }
+          }
+          
+       function matchannonces(){
+              
 
               $annonces = [];
 
-              $annoncesAll = Annonce::with('Entreprise')->get();
+              $annoncesAll = Annonce::with('Entreprise', 'skills')->get();
 
               foreach ($annoncesAll as $annonce) {
                      $userCount = User::join('user_skill', 'users.id', '=', 'user_skill.user_id')
@@ -55,14 +64,11 @@ class HomeController extends Controller
                      }
               }
 
-
-
-
-
-
-              $entreprises = Entreprise::all();
-              return view("welcome", compact("annonces", "entreprises","annoncesAll"));
-
+              if (count( $annonces)) {
+                     return response()->json(["status" => "1", "annonces" => $annonces  , "_token" => csrf_token()]);
+                 } else {
+                     return response()->json(["status" => "0", "message" => "No announcements found"]);
+                 }
        }
 
 }
